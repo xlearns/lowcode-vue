@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "@vueuse/core": "^8.3.1",
+    "default-passive-events": "^2.0.0",
     "echarts": "^5.3.2",
     "element-plus": "^2.1.11",
     "mitt": "^3.0.0",
