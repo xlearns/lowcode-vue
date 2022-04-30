@@ -3,7 +3,7 @@ import * as dft from "./default";
 export const WIDGE_LIST = [
   {
     type: "text",
-    component: "custom-text",
+    component: "customText",
     label: "文字",
     default: dft.TEXT_DATA,
     styles: dft.TEXT_STYLE,

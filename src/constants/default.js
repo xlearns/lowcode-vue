@@ -7,5 +7,5 @@ export const TEXT_DATA = {
 // 文字默认样式
 export const TEXT_STYLE = {
   color: "#000",
-  fontSize: 24,
+  fontSize: '24px',
 };
