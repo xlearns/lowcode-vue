@@ -5,27 +5,29 @@ import StyleSider from "@/components/styleSider/index.vue";
 // 右键菜单
 import ContextMenu from "@/components/contextMenu/index.vue";
 import useContextMenu from "@/hooks/useContextMenu";
-
-import { ref, markRaw, computed } from "vue";
+import { usePanel } from "@/hooks/usePanel";
+import { ref, markRaw } from "vue";
 // 组件
 import comAll from "@/components/custom";
 
+const {
+  onFocus,
+  current,
+  list,
+  onWidgetDrag,
+  layerUp,
+  layerDn,
+  deleteFn,
+  layerTop,
+  layerBottom,
+} = usePanel();
+
 const siderType = ref("widget");
 const widgetList = CONFIG.WIDGE_LIST;
-let list = ref([]);
 let currentId = 0;
 let widgetX = 0;
 let widgetY = 0;
 let currentWidget = null;
-// 当前组件
-let current = computed(() => {
-  return list.value.find((item) => item.focused);
-});
-// 当前组件的样式
-let currentForm = computed(() => {
-  return CONFIG.WIDGE_LIST.find((item) => current.value?.type === item.type)
-    ?.styleForm;
-});
 
 function contextmenu(event) {
   return event.preventDefault();
@@ -65,56 +67,6 @@ function onDrop(event, i) {
   };
   list.value.push(obj);
   onFocus(obj);
-}
-
-function sortList() {
-  list.value.sort((a, b) => b.z - a.z);
-}
-// 获取焦点
-function onFocus(currentItem) {
-  list.value = list.value.map((item) => {
-    item.focused = item.id === currentItem.id;
-    return item;
-  });
-}
-function onWidgetDrag(info, currentItem) {
-  let { left: x, top: y } = info;
-  list.value = list.value.map((item) => {
-    if (item.id === currentItem) {
-      item.x = x;
-      item.y = y;
-    }
-    return item;
-  });
-}
-function layerUp() {
-  let currentItem = current.value;
-  // 找到当前组件的上一个组件
-  let up = list.value.find(
-    (item) => item.z === currentItem.z + 1 && item.id !== currentItem.id
-  );
-  up && up.z--;
-  currentItem.z++;
-}
-function layerDn() {
-  let currentItem = current.value;
-  // 找到当前组件的下一个组件
-  let dn = list.value.find(
-    (item) => item.z === currentItem.z - 1 && item.id !== currentItem.id
-  );
-  dn && dn.z++;
-  currentItem.z--;
-}
-function deleteFn() {
-  list.value = list.value.filter((item) => !item.focused);
-}
-function layerTop() {
-  const currentItem = current.value;
-  console.log(currentItem);
-}
-function layerBottom() {
-  const currentItem = current.value;
-  console.log(currentItem);
 }
 
 function contextMenuFn(type) {
@@ -173,7 +125,7 @@ function contextMenuFn(type) {
       </Dragger>
     </div>
     <!-- 样式 -->
-    <StyleSider class="sider right" :current="current" :form="currentForm" />
+    <StyleSider class="sider right" />
     <ContextMenu @contextMenuFn="contextMenuFn" />
   </div>
 </template>

@@ -1,20 +1,7 @@
-<script setup lang="ts">
+<script setup>
 import { watch } from "vue";
-
-const props = defineProps({
-  current: {
-    type: Object,
-    default: () => {
-      return null;
-    },
-  },
-  form: {
-    type: Array,
-    default() {
-      return [];
-    },
-  },
-});
+import { usePanel } from "@/hooks/usePanel";
+let { current, currentForm: form } = usePanel();
 </script>
 
 <template>
