@@ -1,4 +1,3 @@
-import "default-passive-events";
 import { createApp } from "vue";
 import { createPinia } from "pinia";
 

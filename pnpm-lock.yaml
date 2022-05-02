@@ -3,7 +3,6 @@ lockfileVersion: 5.3
 specifiers:
   '@vitejs/plugin-vue': ^2.3.1
   '@vueuse/core': ^8.3.1
-  default-passive-events: ^2.0.0
   echarts: ^5.3.2
   element-plus: ^2.1.11
   mitt: ^3.0.0
@@ -17,7 +16,6 @@ specifiers:
 
 dependencies:
   '@vueuse/core': 8.3.1_vue@3.2.33
-  default-passive-events: 2.0.0
   echarts: 5.3.2
   element-plus: 2.1.11_vue@3.2.33
   mitt: 3.0.0
@@ -256,10 +254,6 @@ packages:
 
   /dayjs/1.11.1:
     resolution: {integrity: sha512-ER7EjqVAMkRRsxNCC5YqJ9d9VQYuWdGt7aiH2qA5R5wt8ZmWaP2dLUSIK6y/kVzLMlmh1Tvu5xUf4M/wdGJ5KA==}
-    dev: false
-
-  /default-passive-events/2.0.0:
-    resolution: {integrity: sha512-eMtt76GpDVngZQ3ocgvRcNCklUMwID1PaNbCNxfpDXuiOXttSh0HzBbda1HU9SIUsDc02vb7g9+3I5tlqe/qMQ==}
     dev: false
 
   /echarts/5.3.2:
