@@ -62,11 +62,13 @@ export function usePanel() {
   }
   function layerTop() {
     const currentItem = current.value;
-    console.log(currentItem);
+    let max = Math.max(...list.value.map((item) => item.z));
+    currentItem.z = max + 1;
   }
   function layerBottom() {
     const currentItem = current.value;
-    console.log(currentItem);
+    let max = Math.min(...list.value.map((item) => item.z));
+    currentItem.z = max - 1;
   }
 
   function onWidgetMouseDown(event, widget) {

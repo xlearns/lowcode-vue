@@ -80,6 +80,12 @@ function contextMenuFn(type) {
       break;
   }
 }
+
+function onResizing(e) {
+  let { width, height } = e;
+  current.value.w = width;
+  current.value.h = height;
+}
 </script>
 
 <template>
@@ -93,28 +99,37 @@ function contextMenuFn(type) {
     </el-tabs>
     <!-- 操作面板 -->
     <div class="panel" ref="panel" @dragover.prevent @drop="onDrop">
-      <Dragger
-        @contextmenu="openContextMenu($event, item)"
-        :w="item.w"
-        :h="item.h"
-        :x="item.x"
-        :y="item.y"
-        :z="item.z"
-        :isActive="item.focused"
-        @dragging="(info) => onWidgetDrag(info, item.id)"
-        v-for="(item, index) in list"
-        :key="item.id"
-        @clicked="onFocus(item)"
-      >
-        <!-- @drop.native.stop="onDrop($event, index)" -->
-        <component
-          class="inner-widget"
-          :is="item.component"
-          :value="item.value"
-          :styles="item.styles"
-          @drop.native.stop="onDrop($event, index)"
-        />
-      </Dragger>
+      <div class="box">
+        <div class="main">
+          <Dragger
+            @contextmenu="openContextMenu($event, item)"
+            :w="item.w"
+            :h="item.h"
+            :x="item.x"
+            :y="item.y"
+            :z="item.z"
+            :isActive="item.focused"
+            @dragging="(info) => onWidgetDrag(info, item.id)"
+            v-for="(item, index) in list"
+            :key="item.id"
+            @clicked="onFocus(item)"
+            @resizing="onResizing"
+          >
+            <div v-show="item.focused">
+              <div class="line-top"></div>
+              <div class="coords">{{ item.x }},{{ item.y }}</div>
+              <div class="line-left"></div>
+            </div>
+            <component
+              class="inner-widget"
+              :is="item.component"
+              :value="item.value"
+              :styles="item.styles"
+              @drop.native.stop="onDrop($event, index)"
+            />
+          </Dragger>
+        </div>
+      </div>
     </div>
     <!-- 样式 -->
     <StyleSider class="sider right" />
@@ -128,7 +143,7 @@ function contextMenuFn(type) {
   display: flex;
   .sider {
     width: 200px;
-    background: #e9e9e9;
+    background: #212c3d;
   }
 
   .sider.right {
@@ -136,12 +151,52 @@ function contextMenuFn(type) {
   }
   .panel {
     flex: 1;
-    background: #f6f6f6;
-    position: relative;
+    // position: relative;
+    overflow: hidden;
+    .box {
+      position: relative;
+      width: 5000px;
+      height: 3000px;
+      .main {
+        width: 1920px;
+        height: 1160px;
+        background-image: url("https://api.boot.jeecg.com/bigscreen/img/bg/bg1.png");
+        background-position: 0% 0%;
+        background-size: 100% 100%;
+        background-repeat: initial;
+        background-attachment: initial;
+        background-origin: initial;
+        background-clip: initial;
+      }
+    }
   }
   .inner-widget {
     height: 100%;
     width: 100%;
+  }
+  .coords {
+    position: absolute;
+    left: -68px;
+    top: -25px;
+    color: #09f;
+  }
+  .line-top {
+    position: absolute;
+    border-left: 1px dashed #09f;
+    width: 0;
+    height: 10000px;
+    left: 0;
+    -webkit-transform: translateY(-100%);
+    transform: translateY(-100%);
+  }
+  .line-left {
+    position: absolute;
+    border-top: 1px dashed #09f;
+    width: 10000px;
+    height: 0;
+    top: 0;
+    -webkit-transform: translateX(-100%);
+    transform: translateX(-100%);
   }
 }
 </style>
