@@ -40,15 +40,7 @@ function onWidgetMouseDown(event, widget) {
   widgetY = offsetY;
   currentWidget = widget;
 }
-function LayerTop() {
-  const currentItem = list.value.find((item) => item.focused);
-  const maxZ = findTopLayerZ(currentItem);
-  currentItem.z = maxZ + 1;
-}
-function findTopLayerZ(currentItem) {
-  const maxZ = Math.max(...list.value.map((item) => item.z)) || 0;
-  return maxZ;
-}
+
 function onDrop(event, i) {
   let { offsetX, offsetY } = event;
   let x = offsetX - widgetX;
@@ -101,20 +93,37 @@ function layerUp() {
   let up = list.value.find(
     (item) => item.z === currentItem.z + 1 && item.id !== currentItem.id
   );
-
-  console.log(up);
+  up && up.z--;
+  currentItem.z++;
 }
-function layerDn() {}
+function layerDn() {
+  let currentItem = current.value;
+  // 找到当前组件的下一个组件
+  let dn = list.value.find(
+    (item) => item.z === currentItem.z - 1 && item.id !== currentItem.id
+  );
+  dn && dn.z++;
+  currentItem.z--;
+}
 function deleteFn() {
   list.value = list.value.filter((item) => !item.focused);
 }
+function layerTop() {
+  const currentItem = current.value;
+  console.log(currentItem);
+}
+function layerBottom() {
+  const currentItem = current.value;
+  console.log(currentItem);
+}
+
 function contextMenuFn(type) {
   switch (type) {
     case "置顶":
-      //   layerTop();
+      layerTop();
       break;
     case "置底":
-      //   layerBottom();
+      layerBottom();
       break;
     case "上移图层":
       layerUp();
