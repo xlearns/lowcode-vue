@@ -11,6 +11,7 @@ import { ref, markRaw } from "vue";
 import comAll from "@/components/custom";
 
 const {
+  onWidgetMouseDown,
   onFocus,
   current,
   list,
@@ -20,39 +21,30 @@ const {
   deleteFn,
   layerTop,
   layerBottom,
+  widgetX,
+  widgetY,
+  currentWidget,
+  contextmenu,
 } = usePanel();
 
 const siderType = ref("widget");
 const widgetList = CONFIG.WIDGE_LIST;
 let currentId = 0;
-let widgetX = 0;
-let widgetY = 0;
-let currentWidget = null;
 
-function contextmenu(event) {
-  return event.preventDefault();
-}
 function openContextMenu(e, item) {
   useContextMenu(e, { name: "context-menu-1" });
   onFocus(item);
 }
-function onWidgetMouseDown(event, widget) {
-  let { offsetX, offsetY } = event;
-  widgetX = offsetX;
-  widgetY = offsetY;
-  currentWidget = widget;
-}
 
 function onDrop(event, i) {
   let { offsetX, offsetY } = event;
-  let x = offsetX - widgetX;
-  let y = offsetY - widgetY;
+  let x = offsetX - widgetX.value;
+  let y = offsetY - widgetY.value;
   // 放置在其他图层上时
   if (i !== undefined) {
     x += list.value[i].x;
     y += list.value[i].y;
   }
-  // 关闭右键菜单
 
   let obj = {
     id: currentId++,
@@ -61,9 +53,9 @@ function onDrop(event, i) {
     z: !list.value.length
       ? 0
       : Math.max(...list.value.map((item) => item.z)) + 1,
-    ...currentWidget,
-    ...currentWidget.default,
-    component: markRaw(comAll[currentWidget.component]),
+    ...currentWidget.value,
+    ...currentWidget.value.default,
+    component: markRaw(comAll[currentWidget.value.component]),
   };
   list.value.push(obj);
   onFocus(obj);

@@ -1,6 +1,9 @@
 import { ref, computed } from "vue";
 import * as CONFIG from "@/constants/config";
 let list = ref([]);
+let widgetX = ref(0);
+let widgetY = ref(0);
+let currentWidget = ref(null);
 
 export function usePanel() {
   // 当前组件的样式
@@ -19,6 +22,9 @@ export function usePanel() {
     });
   }
 
+  function contextmenu(event) {
+    return event.preventDefault();
+  }
   function onWidgetDrag(info, currentItem) {
     let { left: x, top: y } = info;
     list.value = list.value.map((item) => {
@@ -63,7 +69,19 @@ export function usePanel() {
     console.log(currentItem);
   }
 
+  function onWidgetMouseDown(event, widget) {
+    let { offsetX, offsetY } = event;
+    widgetX.value = offsetX;
+    widgetY.value = offsetY;
+    currentWidget.value = widget;
+  }
+
   return {
+    contextmenu,
+    widgetX,
+    widgetY,
+    currentWidget,
+    onWidgetMouseDown,
     onFocus,
     current,
     list,
