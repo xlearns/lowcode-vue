@@ -25,6 +25,8 @@ const {
   widgetY,
   currentWidget,
   contextmenu,
+  scalc,
+  rootStyle,
 } = usePanel();
 
 const siderType = ref("widget");
@@ -98,38 +100,53 @@ function onResizing(e) {
       /></el-tab-pane>
     </el-tabs>
     <!-- 操作面板 -->
-    <div class="panel" ref="panel" @dragover.prevent @drop="onDrop">
-      <div class="box">
-        <div class="main">
-          <Dragger
-            @contextmenu="openContextMenu($event, item)"
-            :w="item.w"
-            :h="item.h"
-            :x="item.x"
-            :y="item.y"
-            :z="item.z"
-            :isActive="item.focused"
-            @dragging="(info) => onWidgetDrag(info, item.id)"
-            v-for="(item, index) in list"
-            :key="item.id"
-            @clicked="onFocus(item)"
-            @resizing="onResizing"
+    <div
+      class="panel"
+      ref="panel"
+      @dragover.prevent
+      @drop="onDrop"
+      @click="onFocus()"
+    >
+      <el-scrollbar>
+        <div class="box">
+          <div
+            class="canvas"
+            :style="{
+              transform: `scale(${scalc / 100})`,
+              width: `${rootStyle.width}px`,
+              height: `${rootStyle.height}px`,
+            }"
           >
-            <div v-show="item.focused">
-              <div class="line-top"></div>
-              <div class="coords">{{ item.x }},{{ item.y }}</div>
-              <div class="line-left"></div>
-            </div>
-            <component
-              class="inner-widget"
-              :is="item.component"
-              :value="item.value"
-              :styles="item.styles"
-              @drop.native.stop="onDrop($event, index)"
-            />
-          </Dragger>
+            <Dragger
+              @contextmenu="openContextMenu($event, item)"
+              :w="item.w"
+              :h="item.h"
+              :x="item.x"
+              :y="item.y"
+              :z="item.z"
+              :isActive="item.focused"
+              @dragging="(info) => onWidgetDrag(info, item.id)"
+              v-for="(item, index) in list"
+              :key="item.id"
+              @click.stop="onFocus(item)"
+              @resizing="onResizing"
+            >
+              <div v-show="item.focused">
+                <div class="line-top"></div>
+                <div class="coords">{{ item.x }},{{ item.y }}</div>
+                <div class="line-left"></div>
+              </div>
+              <component
+                class="inner-widget"
+                :is="item.component"
+                :value="item.value"
+                :styles="item.styles"
+                @drop.native.stop="onDrop($event, index)"
+              />
+            </Dragger>
+          </div>
         </div>
-      </div>
+      </el-scrollbar>
     </div>
     <!-- 样式 -->
     <StyleSider class="sider right" />
@@ -150,16 +167,19 @@ function onResizing(e) {
     width: 320px;
   }
   .panel {
-    flex: 1;
-    // position: relative;
+    flex: 1 1 0%;
     overflow: hidden;
+    position: relative;
     .box {
       position: relative;
-      width: 5000px;
       height: 3000px;
-      .main {
-        width: 1920px;
-        height: 1160px;
+      width: 5000px;
+      background: url(https://img.alicdn.com/tfs/TB184VLcPfguuRjSspkXXXchpXa-14-14.png)
+        repeat;
+      .canvas {
+        transform-origin: 0 0;
+        // width: 1920px;
+        // height: 1160px;
         background-image: url("https://api.boot.jeecg.com/bigscreen/img/bg/bg1.png");
         background-position: 0% 0%;
         background-size: 100% 100%;

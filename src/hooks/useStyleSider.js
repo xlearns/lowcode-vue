@@ -22,5 +22,17 @@ export function useStyle() {
       },
     ],
   ]);
-  return { PosAndSize };
+  let rootStyle = ref([
+    [
+      {
+        label: "宽度",
+        key: "width",
+      },
+      {
+        label: "高度",
+        key: "height",
+      },
+    ],
+  ]);
+  return { PosAndSize, rootStyle };
 }

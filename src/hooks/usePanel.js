@@ -4,7 +4,11 @@ let list = ref([]);
 let widgetX = ref(0);
 let widgetY = ref(0);
 let currentWidget = ref(null);
-
+let scalc = ref(100);
+let rootStyle = ref({
+  width: 1920,
+  height: 1080,
+});
 export function usePanel() {
   // 当前组件的样式
   let currentForm = computed(() => {
@@ -16,8 +20,18 @@ export function usePanel() {
     return list.value.find((item) => item.focused);
   });
   function onFocus(currentItem) {
+    if (currentItem) {
+      list.value = list.value.map((item) => {
+        item.focused = item.id === currentItem.id;
+        return item;
+      });
+    } else {
+      onBlurAll();
+    }
+  }
+  function onBlurAll() {
     list.value = list.value.map((item) => {
-      item.focused = item.id === currentItem.id;
+      item.focused = false;
       return item;
     });
   }
@@ -63,12 +77,14 @@ export function usePanel() {
   function layerTop() {
     const currentItem = current.value;
     let max = Math.max(...list.value.map((item) => item.z));
+    if (!max) return;
     currentItem.z = max + 1;
   }
   function layerBottom() {
     const currentItem = current.value;
-    let max = Math.min(...list.value.map((item) => item.z));
-    currentItem.z = max - 1;
+    let min = Math.min(...list.value.map((item) => item.z));
+    if (!min) return;
+    currentItem.z = min - 1;
   }
 
   function onWidgetMouseDown(event, widget) {
@@ -79,6 +95,7 @@ export function usePanel() {
   }
 
   return {
+    scalc,
     contextmenu,
     widgetX,
     widgetY,
@@ -95,5 +112,7 @@ export function usePanel() {
     deleteFn,
     layerTop,
     layerBottom,
+    onBlurAll,
+    rootStyle,
   };
 }
