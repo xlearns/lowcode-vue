@@ -26,13 +26,17 @@ function onWidgetMouseDown(e, widget) {
 
 <style scoped>
 .widget {
-  width: 100px;
-  height: 100px;
-  outline: 1px solid red;
-  font-size: 24px;
+  width: 100%;
+  height: 102px;
+  background: #191b23;
+  display: inline-block;
+  position: relative;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  overflow: hidden;
   text-align: center;
-  line-height: 100px;
-  margin: 24px;
+  cursor: pointer;
+  line-height: 102px;
   color: #fff;
 }
 </style>
