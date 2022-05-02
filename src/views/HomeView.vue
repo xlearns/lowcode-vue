@@ -64,7 +64,9 @@ function onDrop(event, i) {
     id: currentId++,
     x,
     y,
-    z: 0,
+    z: !list.value.length
+      ? 0
+      : Math.max(...list.value.map((item) => item.z)) + 1,
     ...currentWidget,
     ...currentWidget.default,
     component: markRaw(comAll[currentWidget.component]),
@@ -93,19 +95,32 @@ function onWidgetDrag(info, currentItem) {
     return item;
   });
 }
+function layerUp() {
+  let currentItem = current.value;
+  // 找到当前组件的上一个组件
+  let up = list.value.find(
+    (item) => item.z === currentItem.z + 1 && item.id !== currentItem.id
+  );
+
+  console.log(up);
+}
+function layerDn() {}
 function deleteFn() {
   list.value = list.value.filter((item) => !item.focused);
 }
 function contextMenuFn(type) {
   switch (type) {
     case "置顶":
-      //   LayerTop();
+      //   layerTop();
       break;
     case "置底":
+      //   layerBottom();
       break;
     case "上移图层":
+      layerUp();
       break;
     case "下移图层":
+      layerDn();
       break;
     case "删除":
       deleteFn();
