@@ -13,6 +13,7 @@ import { useContext } from "@/hooks/useContext";
 import comAll from "@/components/Custom";
 let { hideMenu } = useContext();
 const panel = ref();
+const dom = ref();
 const {
   onWidgetMouseDown,
   onFocus,
@@ -95,6 +96,7 @@ function onResizing(e) {
 }
 function handleKeepActive(e) {
   const target = e.target || e.srcElement;
+  console.log(target.className == "canvasBg" || target.className == "boxBg");
   if (target.className == "canvasBg" || target.className == "boxBg") {
     isMenuDown.value = false;
   } else {
@@ -103,10 +105,7 @@ function handleKeepActive(e) {
 }
 
 onMounted(() => {
-  document.documentElement.addEventListener("mousedown", handleKeepActive);
-});
-onUnmounted(() => {
-  document.documentElement.removeEventListener("mousedown", handleKeepActive);
+  dom.value.addEventListener("mousedown", handleKeepActive);
 });
 </script>
 
@@ -123,7 +122,7 @@ onUnmounted(() => {
     <!-- 操作面板 -->
     <div class="panel" ref="panel" @dragover.prevent @drop="onDrop">
       <el-scrollbar>
-        <div class="boxBg">
+        <div class="boxBg" ref="dom">
           <div
             class="canvasBg"
             :style="{

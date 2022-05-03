@@ -36,7 +36,6 @@ export function useToolBox() {
       case 5:
         if (!current.value) return;
         let { width } = rootStyle.value;
-
         current.value.x = width - current.value.w;
         break;
       case 6:
