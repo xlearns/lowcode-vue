@@ -92,7 +92,7 @@ function onResizing(e) {
 }
 function handleKeepActive(e) {
   const target = e.target || e.srcElement;
-  if (target.className == "canvasBg") {
+  if (target.className == "canvasBg"||target.className == "boxBg") {
     isMenuDown.value = false;
   } else {
     isMenuDown.value = true;
@@ -120,7 +120,7 @@ onUnmounted(() => {
     <!-- 操作面板 -->
     <div class="panel" ref="panel" @dragover.prevent @drop="onDrop">
       <el-scrollbar>
-        <div class="box">
+        <div class="boxBg">
           <div
             class="canvasBg"
             :style="{
@@ -193,7 +193,7 @@ onUnmounted(() => {
     flex: 1 1 0%;
     overflow: hidden;
     position: relative;
-    .box {
+    .boxBg {
       position: relative;
       height: 3000px;
       width: 5000px;
