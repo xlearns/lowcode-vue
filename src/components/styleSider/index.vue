@@ -7,7 +7,7 @@ let { PosAndSize, rootStyle } = useStyle();
 </script>
 
 <template>
-  <div class="h-100% bg-[#212c3d] text-[#fff] relative">
+  <div class="h-100% bg-[#212c3d] text-[#fff] relative" @mousedown.stop>
     <div v-if="current">
       <div class="box">{{ current.label }}</div>
       <div class="box">

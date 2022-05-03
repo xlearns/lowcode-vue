@@ -1,6 +1,8 @@
 import { ref, computed } from "vue";
 import * as CONFIG from "@/constants/config";
+
 let list = ref([]);
+let isMenuDown = ref(false);
 let widgetX = ref(0);
 let widgetY = ref(0);
 let currentWidget = ref(null);
@@ -9,6 +11,7 @@ let rootStyle = ref({
   width: 1920,
   height: 1080,
 });
+
 export function usePanel() {
   // 当前组件的样式
   let currentForm = computed(() => {
@@ -20,20 +23,14 @@ export function usePanel() {
     return list.value.find((item) => item.focused);
   });
   function onFocus(currentItem) {
-    if (currentItem) {
-      list.value = list.value.map((item) => {
-        item.focused = item.id === currentItem.id;
-        return item;
-      });
-    } else {
-      onBlurAll();
-    }
-  }
-  function onBlurAll() {
     list.value = list.value.map((item) => {
-      item.focused = false;
+      item.focused = item.id === currentItem.id;
       return item;
     });
+  }
+  function onBlurs(currentItem) {
+    if (isMenuDown.value) return;
+    currentItem.focused = false;
   }
 
   function contextmenu(event) {
@@ -95,6 +92,7 @@ export function usePanel() {
   }
 
   return {
+    onBlurs,
     scalc,
     contextmenu,
     widgetX,
@@ -112,7 +110,7 @@ export function usePanel() {
     deleteFn,
     layerTop,
     layerBottom,
-    onBlurAll,
     rootStyle,
+    isMenuDown,
   };
 }

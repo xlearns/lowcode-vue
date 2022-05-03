@@ -6,10 +6,10 @@ import StyleSider from "@/components/styleSider/index.vue";
 import ContextMenu from "@/components/contextMenu/index.vue";
 import useContextMenu from "@/hooks/useContextMenu";
 import { usePanel } from "@/hooks/usePanel";
-import { ref, markRaw } from "vue";
+import { ref, markRaw, onMounted, onUnmounted } from "vue";
 // 组件
 import comAll from "@/components/custom";
-
+const panel = ref();
 const {
   onWidgetMouseDown,
   onFocus,
@@ -27,6 +27,8 @@ const {
   contextmenu,
   scalc,
   rootStyle,
+  onBlurs,
+  isMenuDown,
 } = usePanel();
 
 const siderType = ref("widget");
@@ -88,9 +90,25 @@ function onResizing(e) {
   current.value.w = width;
   current.value.h = height;
 }
+function handleKeepActive(e) {
+  const target = e.target || e.srcElement;
+  if (target.className == "canvasBg") {
+    isMenuDown.value = false;
+  } else {
+    isMenuDown.value = true;
+  }
+}
+
+onMounted(() => {
+  document.documentElement.addEventListener("mousedown", handleKeepActive);
+});
+onUnmounted(() => {
+  document.documentElement.removeEventListener("mousedown", handleKeepActive);
+});
 </script>
 
 <template>
+  <div class="tool">工具栏</div>
   <div class="home" @contextmenu="contextmenu">
     <el-tabs v-model="siderType" class="sider">
       <el-tab-pane label="图层" name="layer"></el-tab-pane>
@@ -100,17 +118,11 @@ function onResizing(e) {
       /></el-tab-pane>
     </el-tabs>
     <!-- 操作面板 -->
-    <div
-      class="panel"
-      ref="panel"
-      @dragover.prevent
-      @drop="onDrop"
-      @click="onFocus()"
-    >
+    <div class="panel" ref="panel" @dragover.prevent @drop="onDrop">
       <el-scrollbar>
         <div class="box">
           <div
-            class="canvas"
+            class="canvasBg"
             :style="{
               transform: `scale(${scalc / 100})`,
               width: `${rootStyle.width}px`,
@@ -118,7 +130,6 @@ function onResizing(e) {
             }"
           >
             <Dragger
-              @contextmenu="openContextMenu($event, item)"
               :w="item.w"
               :h="item.h"
               :x="item.x"
@@ -128,8 +139,10 @@ function onResizing(e) {
               @dragging="(info) => onWidgetDrag(info, item.id)"
               v-for="(item, index) in list"
               :key="item.id"
-              @click.stop="onFocus(item)"
+              @clicked="onFocus(item)"
+              @contextmenu="openContextMenu($event, item)"
               @resizing="onResizing"
+              @deactivated="onBlurs(item)"
             >
               <div v-show="item.focused">
                 <div class="line-top"></div>
@@ -154,9 +167,19 @@ function onResizing(e) {
   </div>
 </template>
 <style scoped lang="scss">
+.tool {
+  background: #212c3d;
+  height: 40px;
+  line-height: 40px;
+  font-size: 15px;
+  color: #fff;
+  border-bottom: 2px solid rgb(0, 0, 0);
+  display: flex;
+  box-sizing: border-box;
+}
 .home {
   width: 100%;
-  height: 100%;
+  height: calc(100% - 40px);
   display: flex;
   .sider {
     width: 200px;
@@ -176,7 +199,7 @@ function onResizing(e) {
       width: 5000px;
       background: url(https://img.alicdn.com/tfs/TB184VLcPfguuRjSspkXXXchpXa-14-14.png)
         repeat;
-      .canvas {
+      .canvasBg {
         transform-origin: 0 0;
         // width: 1920px;
         // height: 1160px;
