@@ -1,14 +1,17 @@
 <script setup>
 import * as CONFIG from "@/constants/config";
-import widgetCom from "@/components/widgetList/index.vue";
-import StyleSider from "@/components/styleSider/index.vue";
+import widgetCom from "@/components/WidgetList/index.vue";
+import StyleSider from "@/components/StyleSider/index.vue";
+import toolBox from "@/components/ToolBox/index.vue";
 // 右键菜单
-import ContextMenu from "@/components/contextMenu/index.vue";
+import ContextMenu from "@/components/ContextMenu/index.vue";
 import useContextMenu from "@/hooks/useContextMenu";
 import { usePanel } from "@/hooks/usePanel";
 import { ref, markRaw, onMounted, onUnmounted } from "vue";
+import { useContext } from "@/hooks/useContext";
 // 组件
-import comAll from "@/components/custom";
+import comAll from "@/components/Custom";
+let { hideMenu } = useContext();
 const panel = ref();
 const {
   onWidgetMouseDown,
@@ -24,7 +27,6 @@ const {
   widgetX,
   widgetY,
   currentWidget,
-  contextmenu,
   scalc,
   rootStyle,
   onBlurs,
@@ -41,6 +43,7 @@ function openContextMenu(e, item) {
 }
 
 function onDrop(event, i) {
+  hideMenu();
   let { offsetX, offsetY } = event;
   let x = offsetX - widgetX.value;
   let y = offsetY - widgetY.value;
@@ -92,7 +95,7 @@ function onResizing(e) {
 }
 function handleKeepActive(e) {
   const target = e.target || e.srcElement;
-  if (target.className == "canvasBg"||target.className == "boxBg") {
+  if (target.className == "canvasBg" || target.className == "boxBg") {
     isMenuDown.value = false;
   } else {
     isMenuDown.value = true;
@@ -108,8 +111,8 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="tool">工具栏</div>
-  <div class="home" @contextmenu="contextmenu">
+  <div class="tool"><toolBox /></div>
+  <div class="home" @contextmenu.stop.prevent>
     <el-tabs v-model="siderType" class="sider">
       <el-tab-pane label="图层" name="layer"></el-tab-pane>
       <el-tab-pane label="组件" name="widget">

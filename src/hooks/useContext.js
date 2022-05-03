@@ -1,8 +1,8 @@
-import { ref } from "vue";
+import { ref, nextTick } from "vue";
+import bus from "@/bus";
 const show = ref(false);
 const contextmenu = ref();
 const bindingValue = ref();
-import bus from "@/bus";
 
 export function useContext() {
   async function showMenu(x, y, val) {
@@ -10,6 +10,7 @@ export function useContext() {
     bindingValue.value = { ...val };
     bus.emit("bindValue", bindingValue.value);
     await nextTick();
+
     if (contextmenu.value) {
       const el = contextmenu.value;
       const p = getPosition(x, y);
@@ -22,6 +23,7 @@ export function useContext() {
   function getPosition(x, y) {
     const style = { top: y, left: x };
     const { innerWidth, innerHeight } = window;
+
     if (contextmenu.value) {
       // dom
       const el = contextmenu.value;
@@ -46,6 +48,8 @@ export function useContext() {
     show.value = false;
   }
   return {
+    bindingValue,
+    contextmenu,
     getPosition,
     hideMenu,
     showMenu,

@@ -1,12 +1,12 @@
 <script setup>
-import { onMounted, ref, nextTick } from "vue";
+import { onMounted } from "vue";
 import { useContext } from "@/hooks/useContext";
 import bus from "@/bus";
 let props = defineProps({
   cutomClass: String,
   name: String,
 });
-let { hideMenu, showMenu, show } = useContext();
+let { hideMenu, showMenu, show, contextmenu, bindingValue } = useContext();
 onMounted(() => {
   bus.on("add-contextmenu", (e) => {
     showMenu(e.x, e.y, e.value);
