@@ -169,7 +169,10 @@ onUnmounted(() => {
     <ContextMenu @contextMenuFn="contextMenuFn" />
   </div>
 </template>
-<style scoped lang="scss">
+<style lang="scss" scoped>
+::v-deep(.el-tabs__item) {
+  color: #fff;
+}
 .tool {
   background: #212c3d;
   height: 40px;
