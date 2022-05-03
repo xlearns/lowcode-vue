@@ -28,6 +28,12 @@ export function usePanel() {
       return item;
     });
   }
+  function onBlursAll() {
+    list.value = list.value.map((item) => {
+      item.focused = false;
+      return item;
+    });
+  }
   function onBlurs(currentItem) {
     if (isMenuDown.value) return;
     currentItem.focused = false;
@@ -92,6 +98,7 @@ export function usePanel() {
   }
 
   return {
+    onBlursAll,
     onBlurs,
     scalc,
     contextmenu,

@@ -11,6 +11,8 @@ import { ref, markRaw, onMounted, onUnmounted } from "vue";
 import { useContext } from "@/hooks/useContext";
 // 组件
 import comAll from "@/components/Custom";
+import { useStorage } from "@vueuse/core";
+
 let { hideMenu } = useContext();
 const panel = ref();
 const dom = ref();
@@ -32,11 +34,12 @@ const {
   rootStyle,
   onBlurs,
   isMenuDown,
+  onBlursAll,
 } = usePanel();
 
 const siderType = ref("widget");
 const widgetList = CONFIG.WIDGE_LIST;
-let currentId = 0;
+let currentId = useStorage("currentId", 0, sessionStorage);
 
 function openContextMenu(e, item) {
   useContextMenu(e, { name: "context-menu-1" });
@@ -44,6 +47,7 @@ function openContextMenu(e, item) {
 }
 
 function onDrop(event, i) {
+  console.log(currentId.value);
   hideMenu();
   let { offsetX, offsetY } = event;
   let x = offsetX - widgetX.value;
@@ -55,7 +59,7 @@ function onDrop(event, i) {
   }
 
   let obj = {
-    id: currentId++,
+    id: currentId.value++,
     x,
     y,
     z: !list.value.length
@@ -96,7 +100,6 @@ function onResizing(e) {
 }
 function handleKeepActive(e) {
   const target = e.target || e.srcElement;
-  console.log(target.className == "canvasBg" || target.className == "boxBg");
   if (target.className == "canvasBg" || target.className == "boxBg") {
     isMenuDown.value = false;
   } else {
@@ -106,6 +109,10 @@ function handleKeepActive(e) {
 
 onMounted(() => {
   dom.value.addEventListener("mousedown", handleKeepActive);
+});
+onUnmounted(() => {
+  current.value = null;
+  onBlursAll();
 });
 </script>
 
