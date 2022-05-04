@@ -1,6 +1,7 @@
 lockfileVersion: 5.3
 
 specifiers:
+  '@element-plus/icons-vue': ^1.1.4
   '@vitejs/plugin-vue': ^2.3.1
   '@vueuse/core': ^8.3.1
   echarts: ^5.3.2
@@ -17,6 +18,7 @@ specifiers:
   windicss: ^3.5.1
 
 dependencies:
+  '@element-plus/icons-vue': 1.1.4_vue@3.2.33
   '@vueuse/core': 8.3.1_vue@3.2.33
   echarts: 5.3.2
   element-plus: 2.1.11_vue@3.2.33

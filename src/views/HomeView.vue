@@ -9,10 +9,11 @@ import useContextMenu from "@/hooks/useContextMenu";
 import { usePanel } from "@/hooks/usePanel";
 import { ref, markRaw, onMounted, onUnmounted } from "vue";
 import { useContext } from "@/hooks/useContext";
+import { useStyle } from "@/hooks/useStyleSider";
 // 组件
 import comAll from "@/components/Custom";
 import { useStorage } from "@vueuse/core";
-
+let { bgImg } = useStyle();
 let { hideMenu } = useContext();
 const panel = ref();
 const dom = ref();
@@ -47,7 +48,6 @@ function openContextMenu(e, item) {
 }
 
 function onDrop(event, i) {
-  console.log(currentId.value);
   hideMenu();
   let { offsetX, offsetY } = event;
   let x = offsetX - widgetX.value;
@@ -136,6 +136,7 @@ onUnmounted(() => {
               transform: `scale(${scalc / 100})`,
               width: `${rootStyle.width}px`,
               height: `${rootStyle.height}px`,
+              backgroundImage: `url(${bgImg})`,
             }"
           >
             <Dragger

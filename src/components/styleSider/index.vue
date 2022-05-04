@@ -3,7 +3,7 @@ import { ref, watch } from "vue";
 import { usePanel } from "@/hooks/usePanel";
 import { useStyle } from "@/hooks/useStyleSider";
 let { current, currentForm: form, scalc, rootStyle: size } = usePanel();
-let { PosAndSize, rootStyle } = useStyle();
+let { PosAndSize, rootStyle, beforeAvatarUpload, change, bgImg } = useStyle();
 </script>
 
 <template>
@@ -53,7 +53,16 @@ let { PosAndSize, rootStyle } = useStyle();
         <div class="title">页面颜色</div>
       </div>
       <div class="box">
-        <div class="title">背景图</div>
+        <div class="title mb-1em">背景图</div>
+        <el-upload
+          action=""
+          class="avatar-uploader"
+          @change="change"
+          :before-upload="beforeAvatarUpload"
+        >
+          <img v-if="bgImg" :src="bgImg" class="avatar" />
+          <el-icon v-else class="avatar-uploader-icon"><Plus /> </el-icon>
+        </el-upload>
       </div>
       <div class="slider-demo-block absolute bottom-[25px] left-[-20px]">
         <el-slider v-model="scalc" vertical height="100px" />
@@ -67,12 +76,30 @@ let { PosAndSize, rootStyle } = useStyle();
   padding: 10px 12px;
   border-bottom: 1px solid #303247;
 }
-.slider-demo-block {
-  display: flex;
-  align-items: center;
+.avatar-uploader ::v-deep(.el-upload) {
+  border: 1px dashed #dcdfe6;
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: 0.2s;
 }
-.slider-demo-block .el-slider {
-  margin-top: 0;
-  margin-left: 12px;
+
+.avatar-uploader ::v-deep(.el-upload:hover) {
+  border-color: #409eff;
+}
+
+::v-deep(.el-icon.avatar-uploader-icon) {
+  font-size: 28px;
+  color: #8c939d;
+  width: 104px;
+  height: 104px;
+  text-align: center;
+}
+
+.avatar-uploader .avatar {
+  width: 104px;
+  height: 104px;
+  display: block;
 }
 </style>

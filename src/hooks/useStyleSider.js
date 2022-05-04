@@ -1,4 +1,7 @@
 import { ref } from "vue";
+// 只有放到函数外面，才会是全局响应式
+let bgImg = ref("https://api.boot.jeecg.com/bigscreen/img/bg/bg1.png");
+
 export function useStyle() {
   let PosAndSize = ref([
     [
@@ -34,5 +37,24 @@ export function useStyle() {
       },
     ],
   ]);
-  return { PosAndSize, rootStyle };
+
+  function beforeAvatarUpload(uploadFile) {
+    return false;
+  }
+  function change(file) {
+    let fileReader = new FileReader();
+    fileReader.readAsDataURL(file.raw);
+    fileReader.onload = () => {
+      bgImg.value = fileReader.result;
+    };
+  }
+  function handlePictureCardPreview(uploadFile) {}
+  return {
+    bgImg,
+    PosAndSize,
+    rootStyle,
+    beforeAvatarUpload,
+    handlePictureCardPreview,
+    change,
+  };
 }
