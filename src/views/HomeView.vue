@@ -43,6 +43,16 @@ const drawerMainButton = ref({
   two: ["折线图", "柱状图", "饼图", "散点图", "面积图"],
   three: ["环状图", "K线图", "水位图", "雷达图", "热力图"],
 });
+
+const options = ref([
+  { value: "", label: "边框" },
+  { value: "", label: "图表" },
+  { value: "", label: "文本" },
+  { value: "", label: "多媒体" },
+  { value: "", label: "地图" },
+  { value: "", label: "3d" },
+  { value: "", label: "element-plus" },
+]);
 const activeNames = ref(["2"]);
 const ComponentList = ["组件库"];
 const siderType = ref("widget");
@@ -201,6 +211,12 @@ onUnmounted(() => {
               placeholder="全部"
               size="small"
             >
+              <el-option
+                v-for="item in options"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              />
             </el-select>
             <div class="drawer-main-button">
               <div
