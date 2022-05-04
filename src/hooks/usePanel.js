@@ -7,6 +7,7 @@ let widgetX = ref(0);
 let widgetY = ref(0);
 let currentWidget = ref(null);
 let scalc = ref(100);
+let drawer = ref(false);
 let rootStyle = ref({
   width: 1920,
   height: 1080,
@@ -98,6 +99,7 @@ export function usePanel() {
   }
 
   return {
+    drawer,
     onBlursAll,
     onBlurs,
     scalc,

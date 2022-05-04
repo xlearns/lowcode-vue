@@ -2,8 +2,17 @@
 import { ref, watch } from "vue";
 import { usePanel } from "@/hooks/usePanel";
 import { useStyle } from "@/hooks/useStyleSider";
+import box from "./box.vue";
 let { current, currentForm: form, scalc, rootStyle: size } = usePanel();
-let { PosAndSize, rootStyle, beforeAvatarUpload, change, bgImg } = useStyle();
+let {
+  PosAndSize,
+  rootStyle,
+  beforeAvatarUpload,
+  change,
+  bgImg,
+  data,
+  keyboard,
+} = useStyle();
 </script>
 
 <template>
@@ -11,20 +20,37 @@ let { PosAndSize, rootStyle, beforeAvatarUpload, change, bgImg } = useStyle();
     <div v-if="current">
       <div class="box">{{ current.label }}</div>
       <div class="box">
-        <div class="title">位置和尺寸</div>
-        <div
-          class="flex justify-center"
-          v-for="(item, index) in PosAndSize"
-          :key="index"
-        >
-          <el-row v-for="(v, i) in item" :key="i">
-            <span class="ml-3 inline-flex items-center text-[#fff]">{{
-              v.label
-            }}</span>
-            <el-input type="number" v-model="current[v.key]" class="w-20 m-4" />
-          </el-row>
-        </div>
+        <box title="位置和尺寸" open>
+          <div
+            class="flex justify-center"
+            v-for="(item, index) in PosAndSize"
+            :key="index"
+          >
+            <el-row v-for="(v, i) in item" :key="i">
+              <span class="ml-3 inline-flex items-center text-[#fff]">{{
+                v.label
+              }}</span>
+              <el-input
+                type="number"
+                v-model="current[v.key]"
+                class="w-20 m-4"
+              />
+            </el-row>
+          </div>
+        </box>
       </div>
+      <div class="box">
+        <box title="快捷键">
+          <div class="flex justify-between flex-wrap">
+            <div v-for="(item, index) in data">
+              <el-button class="m-[5px]" @click="keyboard(item)">{{
+                item
+              }}</el-button>
+            </div>
+          </div>
+        </box>
+      </div>
+
       <div class="box">
         <div class="title">颜色</div>
       </div>
@@ -53,6 +79,12 @@ let { PosAndSize, rootStyle, beforeAvatarUpload, change, bgImg } = useStyle();
         <div class="title">页面颜色</div>
       </div>
       <div class="box">
+        <div class="title">缩放</div>
+        <div class="w-[90%] mr-[15px] ml-[5px] flex items-center">
+          <el-slider v-model="scalc" />
+        </div>
+      </div>
+      <div class="box">
         <div class="title mb-1em">背景图</div>
         <el-upload
           action=""
@@ -63,9 +95,6 @@ let { PosAndSize, rootStyle, beforeAvatarUpload, change, bgImg } = useStyle();
           <img v-if="bgImg" :src="bgImg" class="avatar" />
           <el-icon v-else class="avatar-uploader-icon"><Plus /> </el-icon>
         </el-upload>
-      </div>
-      <div class="slider-demo-block absolute bottom-[25px] left-[-20px]">
-        <el-slider v-model="scalc" vertical height="100px" />
       </div>
     </div>
   </div>

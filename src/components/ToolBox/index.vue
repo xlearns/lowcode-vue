@@ -4,7 +4,7 @@ let { data, click } = useToolBox();
 </script>
 
 <template>
-  <div class="w-[100%] flex justify-center" @mousedown.stop>
+  <div class="w-[100%] flex justify-center items-center" @mousedown.stop>
     <el-button v-for="(item, index) in data" @click.stop="click(index)">{{
       item
     }}</el-button>

@@ -36,8 +36,15 @@ const {
   onBlurs,
   isMenuDown,
   onBlursAll,
+  drawer,
 } = usePanel();
-
+const drawerMainButton = ref({
+  one: ["全部", "统计图", "信息图"],
+  two: ["折线图", "柱状图", "饼图", "散点图", "面积图"],
+  three: ["环状图", "K线图", "水位图", "雷达图", "热力图"],
+});
+const activeNames = ref(["2"]);
+const ComponentList = ["组件库"];
 const siderType = ref("widget");
 const widgetList = CONFIG.WIDGE_LIST;
 let currentId = useStorage("currentId", 0, sessionStorage);
@@ -119,13 +126,9 @@ onUnmounted(() => {
 <template>
   <div class="tool"><toolBox /></div>
   <div class="home" @contextmenu.stop.prevent>
-    <el-tabs v-model="siderType" class="sider">
-      <el-tab-pane label="图层" name="layer"></el-tab-pane>
-      <el-tab-pane label="组件" name="widget">
-        <!-- 组件列表 -->
-        <widgetCom :list="widgetList" @onWidgetMouseDown="onWidgetMouseDown"
-      /></el-tab-pane>
-    </el-tabs>
+    <transition name="drawer">
+      <div class="drawer_space" v-if="drawer"></div>
+    </transition>
     <!-- 操作面板 -->
     <div class="panel" ref="panel" @dragover.prevent @drop="onDrop">
       <el-scrollbar>
@@ -175,8 +178,108 @@ onUnmounted(() => {
     <StyleSider class="sider right" />
     <ContextMenu @contextMenuFn="contextMenuFn" />
   </div>
+  <transition name="drawer">
+    <div class="drawer" v-if="drawer">
+      <div class="drawer-header">
+        <div class="drawer-header-title">
+          <span v-for="(item, index) in ComponentList" :key="index">
+            {{ item }}
+          </span>
+        </div>
+        <div class="drawer-header-close" @click="drawer = false">
+          <el-button type="danger" icon="close" circle />
+        </div>
+      </div>
+      <div class="drawer-main">
+        <el-collapse v-model="activeNames">
+          <el-collapse-item title="系统组件" name="1" class="mb-[5px]">
+          </el-collapse-item>
+          <el-collapse-item title="组件库" name="2">
+            <el-select
+              v-model="value"
+              class="m-2"
+              placeholder="全部"
+              size="small"
+            >
+            </el-select>
+            <div class="drawer-main-button">
+              <div
+                class="drawer-main-button_item m-[5px]"
+                v-for="(item, index) in drawerMainButton"
+                :key="index"
+              >
+                <el-button size="small" plain v-for="(v, i) in item" :key="i">{{
+                  v
+                }}</el-button>
+              </div>
+            </div>
+            <div class="drawer-main-container">
+              <widgetCom
+                :list="widgetList"
+                @onWidgetMouseDown="onWidgetMouseDown"
+              />
+            </div>
+            <el-pagination layout="prev, pager, next" :total="50" />
+          </el-collapse-item>
+        </el-collapse>
+      </div>
+    </div>
+  </transition>
 </template>
 <style lang="scss" scoped>
+::v-deep(.el-collapse-item__header) {
+  padding: 5px;
+}
+.drawer_space {
+  width: 30%;
+}
+.drawer {
+  position: absolute;
+  left: 0;
+  top: 0;
+  background: #efefef;
+  width: 30%;
+  overflow: hidden;
+  height: 100%;
+  box-sizing: border-box;
+  padding: 5px;
+  &-header {
+    height: 40px;
+    width: 100%;
+    padding: 5px;
+    box-sizing: border-box;
+    // background: #efefef;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    &-title {
+      span {
+        white-space: nowrap;
+        cursor: pointer;
+      }
+    }
+  }
+  &-main {
+    &-button {
+      &_item {
+        display: flex;
+      }
+    }
+    &-container {
+      height: 230px;
+    }
+  }
+}
+.drawer-enter-active,
+.drawer-leave-active {
+  transition: all 300ms ease;
+}
+
+.drawer-enter-from,
+.drawer-leave-to {
+  width: 0px;
+}
+
 ::v-deep(.el-tabs__item) {
   color: #fff;
 }

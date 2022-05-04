@@ -15,28 +15,22 @@ function onWidgetMouseDown(e, widget) {
     <div
       v-for="widget in list"
       :key="widget.type"
-      class="widget"
+      class="widget m-[5px]"
       draggable="true"
+      :style="{ backgroundImage: `url(${widget.url})` }"
       @mousedown="onWidgetMouseDown($event, widget)"
-    >
-      {{ widget.label }}
-    </div>
+    ></div>
   </div>
 </template>
 
-<style scoped>
-.widget {
-  width: 100%;
-  height: 102px;
-  background: #191b23;
-  display: inline-block;
-  position: relative;
-  border: 1px solid transparent;
-  border-radius: 4px;
-  overflow: hidden;
-  text-align: center;
-  cursor: pointer;
-  line-height: 102px;
-  color: #fff;
+<style lang="scss" scoped>
+.widget-list {
+  display: flex;
+  // justify-content: space-between;
+  .widget {
+    width: 25%;
+    height: 50px;
+    background: no-repeat center center/100%;
+  }
 }
 </style>
