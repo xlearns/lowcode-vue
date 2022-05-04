@@ -35,8 +35,7 @@ let options = ref(rootStyle.value);
   position: relative;
   height: 100%;
   width: 100%;
-  background: url("https://api.boot.jeecg.com/bigscreen/img/bg/bg1.png")
-    no-repeat left top;
+  background: no-repeat left top;
   background-size: cover;
 }
 </style>
