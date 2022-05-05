@@ -50,5 +50,6 @@ onUnmounted(() => {
   width: 100%;
   background: no-repeat left top;
   background-size: cover;
+  z-index: -9999;
 }
 </style>
