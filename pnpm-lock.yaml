@@ -13,7 +13,6 @@ specifiers:
   vite: ^2.9.5
   vite-plugin-windicss: ^1.8.4
   vue: ^3.2.33
-  vue-drag-resize: ^2.0.3
   vue-router: ^4.0.14
   vuedraggable: ^4.1.0
   windicss: ^3.5.1
@@ -27,7 +26,6 @@ dependencies:
   pinia: 2.0.13_vue@3.2.33
   uuid: 8.3.2
   vue: 3.2.33
-  vue-drag-resize: 2.0.3
   vue-router: 4.0.14_vue@3.2.33
   vuedraggable: 4.1.0_vue@3.2.33
 
@@ -913,10 +911,6 @@ packages:
         optional: true
     dependencies:
       vue: 3.2.33
-    dev: false
-
-  /vue-drag-resize/2.0.3:
-    resolution: {integrity: sha512-5q03tZ/LyvQsg1iHRcqs+wI2OKNbNIWl9+7V8rVL6MxJhZLCIYSSgbAUaDE38LhD6dFd5aJhdgNmES61AxjXuw==}
     dev: false
 
   /vue-router/4.0.14_vue@3.2.33:

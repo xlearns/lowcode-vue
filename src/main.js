@@ -3,13 +3,11 @@ import { createPinia } from "pinia";
 
 import App from "./App.vue";
 import router from "./router";
-
 import ElementPlus from "element-plus";
 import "element-plus/dist/index.css";
 import "virtual:windi.css";
 import * as ElementPlusIconsVue from "@element-plus/icons-vue";
-
-import VueDragResize from "vue-drag-resize";
+import VueDragResize from "@/components/VueDragResize";
 
 const app = createApp(App);
 app.component("Dragger", VueDragResize);

@@ -2,7 +2,7 @@ import { ref } from "vue";
 import { usePanel } from "@/hooks/usePanel";
 let { current, list, rootStyle: rs } = usePanel();
 // 只有放到函数外面，才会是全局响应式
-let bgImg = ref("https://api.boot.jeecg.com/bigscreen/img/bg/bg1.png");
+let bgImg = ref("./bg.png");
 
 let data = ref([
   "左对齐",

@@ -81,13 +81,13 @@ export function usePanel() {
   function layerTop() {
     const currentItem = current.value;
     let max = Math.max(...list.value.map((item) => item.z));
-    if (!max) return;
+    if (typeof max != "number") return;
     currentItem.z = max + 1;
   }
   function layerBottom() {
     const currentItem = current.value;
     let min = Math.min(...list.value.map((item) => item.z));
-    if (!min) return;
+    if (typeof min != "number") return;
     currentItem.z = min - 1;
   }
 
