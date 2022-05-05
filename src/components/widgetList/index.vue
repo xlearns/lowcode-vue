@@ -1,5 +1,5 @@
 <script setup>
-let props = defineProps({
+defineProps({
 	list: Array,
 });
 
@@ -15,23 +15,22 @@ function onWidgetMouseDown(e, widget) {
 		<div
 			v-for="widget in list"
 			:key="widget.type"
-			class="widget"
+			class="widget m-[5px]"
 			draggable="true"
+			:style="{ backgroundImage: `url(${widget.url})` }"
 			@mousedown="onWidgetMouseDown($event, widget)"
-		>
-			{{ widget.label }}
-		</div>
+		></div>
 	</div>
 </template>
 
-<style scoped>
-.widget {
-	width: 100px;
-	height: 100px;
-	outline: 1px solid red;
-	font-size: 24px;
-	text-align: center;
-	line-height: 100px;
-	margin: 24px;
+<style lang="scss" scoped>
+.widget-list {
+	display: flex;
+	flex-wrap: wrap;
+	.widget {
+		width: 22%;
+		height: 50px;
+		background: no-repeat center center/100%;
+	}
 }
 </style>

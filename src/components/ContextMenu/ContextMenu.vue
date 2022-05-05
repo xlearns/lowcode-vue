@@ -1,56 +1,12 @@
 <script setup>
-import { onMounted, ref, nextTick } from "vue";
+import { onMounted } from "vue";
+import { useContext } from "@/hooks/useContext";
 import bus from "@/bus";
 let props = defineProps({
   cutomClass: String,
   name: String,
 });
-const show = ref(false);
-const contextmenu = ref();
-const bindingValue = ref();
-
-function getPosition(x, y) {
-  const style = { top: y, left: x };
-  const { innerWidth, innerHeight } = window;
-  if (contextmenu.value) {
-    // dom
-    const el = contextmenu.value;
-    const { clientWidth: elWidth, clientHeight: elHeight } = el;
-    if (y + elHeight > innerHeight) {
-      style.top -= elHeight;
-    }
-    if (x + elWidth > innerWidth) {
-      style.left -= elWidth;
-    }
-    if (style.top < 0) {
-      style.top = elHeight < innerHeight ? (innerHeight - elHeight) / 2 : 0;
-    }
-    if (style.left < 0) {
-      style.left = elWidth < innerWidth ? (innerWidth - elWidth) / 2 : 0;
-    }
-    return style;
-  }
-}
-
-async function showMenu(x, y, val) {
-  show.value = true;
-  bindingValue.value = { ...val };
-  bus.emit("bindValue", bindingValue.value);
-  await nextTick();
-  if (contextmenu.value) {
-    const el = contextmenu.value;
-    const p = getPosition(x, y);
-    if (p) {
-      el.style.top = `${p.top + 5}px`;
-      el.style.left = `${p.left + 5}px`;
-    }
-  }
-}
-
-function hideMenu() {
-  show.value = false;
-}
-
+let { hideMenu, showMenu, show, contextmenu, bindingValue } = useContext();
 onMounted(() => {
   bus.on("add-contextmenu", (e) => {
     showMenu(e.x, e.y, e.value);
@@ -78,6 +34,7 @@ onMounted(() => {
 
 <style scoped>
 .v-contextmenu {
+  z-index: 9999;
   position: fixed;
   top: 0;
   left: 0;
