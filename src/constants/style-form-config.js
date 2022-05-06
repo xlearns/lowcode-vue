@@ -1,14 +1,19 @@
 // 右边配置
 export const TEXT = [
   {
+    key:"content",
+    label:"内容",
+    component:"Input",
+  },
+  {
     key: "color",
     label: "颜色",
-    component: "el-color-picker",
+    component: "ColorPicker",
   },
   {
     key: "fontSize",
     label: "字号",
-    component: "el-input-number",
+    component: "InputNumber",
   },
 ];
 

@@ -3,7 +3,10 @@ import { ref, watch } from "vue";
 import { usePanel } from "@/hooks/usePanel";
 import { useStyle } from "@/hooks/useStyleSider";
 import box from "./box.vue";
+import comAll from "@/components/StyleParse";
+
 let { current, currentForm: form, scalc, rootStyle: size } = usePanel();
+
 let {
 	PosAndSize,
 	rootStyle,
@@ -21,44 +24,48 @@ let {
 			<div class="box">{{ current.label }}</div>
 			<el-tabs>
 				<el-tab-pane label="属性">
-					<div class="box">
-						<box title="位置和尺寸" open>
-							<div
-								class="flex justify-center"
-								v-for="(item, index) in PosAndSize"
-								:key="index"
-							>
-								<el-row v-for="(v, i) in item" :key="i">
-									<span class="ml-3 inline-flex items-center text-[#fff]">{{
-										v.label
-									}}</span>
-									<el-input
-										type="number"
-										v-model="current[v.key]"
-										class="w-20 m-4"
-									/>
-								</el-row>
-							</div>
-						</box>
-					</div>
-					<div class="box">
-						<box title="快捷键">
-							<div class="flex justify-between flex-wrap">
-								<div v-for="(item, index) in data">
-									<el-button class="m-[5px]" @click="keyboard(item)">{{
-										item
-									}}</el-button>
+					<el-scrollbar>
+						<div class="box">
+							<box title="位置和尺寸" open>
+								<div
+									class="flex justify-center"
+									v-for="(item, index) in PosAndSize"
+									:key="index"
+								>
+									<el-row v-for="(v, i) in item" :key="i">
+										<span class="ml-3 inline-flex items-center text-[#fff]">{{
+											v.label
+										}}</span>
+										<el-input
+											type="number"
+											v-model="current[v.key]"
+											class="w-20 m-4"
+										/>
+									</el-row>
 								</div>
-							</div>
-						</box>
-					</div>
-
-					<div class="box">
-						<div class="title">颜色</div>
-					</div>
-					<div class="box">
-						<div class="title">文字</div>
-					</div>
+							</box>
+						</div>
+						<div class="box">
+							<box title="快捷键" open>
+								<div class="flex justify-between flex-wrap">
+									<div v-for="(item, index) in data">
+										<el-button
+											class="m-[5px]"
+											@click="keyboard(item)"
+											type="primary"
+											>{{ item }}</el-button
+										>
+									</div>
+								</div>
+							</box>
+						</div>
+						<!-- 自定义 -->
+						<div class="box" v-for="(item, index) in form" :key="item.key">
+							<box :title="item.label" isPadding>
+								<component :is="comAll[item.component]" />
+							</box>
+						</div>
+					</el-scrollbar>
 				</el-tab-pane>
 				<el-tab-pane label="动画">动画</el-tab-pane>
 				<el-tab-pane label="事件">事件</el-tab-pane>

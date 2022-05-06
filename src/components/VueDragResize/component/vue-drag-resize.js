@@ -108,44 +108,27 @@ export default {
     w: {
       type: [String, Number],
       default: 200,
-      validator(val) {
-        return typeof val === "string" ? val === "auto" : val >= 0;
-      },
     },
     h: {
       type: [String, Number],
       default: 200,
-      validator(val) {
-        return typeof val === "string" ? val === "auto" : val >= 0;
-      },
     },
     minw: {
       type: Number,
-      default: 50,
-      validator(val) {
-        return val >= 0;
-      },
+      default: 0,
+   
     },
     minh: {
       type: Number,
-      default: 50,
-      validator(val) {
-        return val >= 0;
-      },
+      default: 0
     },
     x: {
       type: Number,
       default: 0,
-      validator(val) {
-        return typeof val === "number";
-      },
     },
     y: {
       type: Number,
       default: 0,
-      validator(val) {
-        return typeof val === "number";
-      },
     },
     z: {
       type: [String, Number],
