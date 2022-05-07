@@ -55,8 +55,9 @@ export const WIDGE_LIST = [
     url: "/img/elementplus1.png",
     component: "customElementUiButton",
     label: "按钮",
+    value: "hello world!",
     default: dft.ECHARTSPIE_DATA,
     styles: dft.ECHARTSPIE_STYLE,
-    styleForm: styleFormConfig.PIE,
+    styleForm: styleFormConfig.BTN,
   },
 ];

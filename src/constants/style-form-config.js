@@ -17,6 +17,11 @@ export const TEXT = [
     component: "InputNumber",
     isStyle: true,
   },
+  {
+    key: "border",
+    label: "边框",
+    component: "Border",
+  },
 ];
 
 export const BAR = [
@@ -42,5 +47,24 @@ export const PIE = [
     key: "fontSize",
     label: "bb",
     component: "el-input-number",
+  },
+];
+
+export const BTN = [
+  {
+    key: "color",
+    label: "颜色",
+    component: "ColorPicker",
+    isStyle: true,
+  },
+  {
+    key: "value",
+    label: "内容",
+    component: "Input",
+  },
+  {
+    key: "border",
+    label: "边框",
+    component: "Border",
   },
 ];
