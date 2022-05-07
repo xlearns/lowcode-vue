@@ -9,6 +9,7 @@ export const TEXT = [
     key: "color",
     label: "颜色",
     component: "ColorPicker",
+    isStyle: true,
   },
   {
     key: "fontSize",

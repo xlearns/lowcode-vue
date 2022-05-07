@@ -7,7 +7,7 @@ export const TEXT_DATA = {
 // 文字默认样式
 export const TEXT_STYLE = {
   color: "#fff",
-  fontSize: "24px",
+  fontSize: "24px"
 };
 
 export const ECHARTSBAR_DATA = {
