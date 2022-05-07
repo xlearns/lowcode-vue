@@ -1,9 +1,9 @@
 // 右边配置
 export const TEXT = [
   {
-    key:"content",
-    label:"内容",
-    component:"Input",
+    key: "value",
+    label: "内容",
+    component: "Input",
   },
   {
     key: "color",
@@ -14,6 +14,7 @@ export const TEXT = [
     key: "fontSize",
     label: "字号",
     component: "InputNumber",
+    isStyle: true,
   },
 ];
 
