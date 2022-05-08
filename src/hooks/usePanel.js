@@ -16,7 +16,8 @@ let rootStyle = ref({
 export function usePanel() {
   // 当前组件的样式
   let currentForm = computed(() => {
-    return current.value.styleForm;
+    return CONFIG.WIDGE_LIST.find((item) => current.value?.type === item.type)
+      ?.styleForm;
   });
 
   let current = computed(() => {
