@@ -9,14 +9,18 @@ import "virtual:windi.css";
 import * as ElementPlusIconsVue from "@element-plus/icons-vue";
 import VueDragResize from "@/components/VueDragResize";
 
+import { GlobalCmComponent } from "codemirror-editor-vue3";
+
 const app = createApp(App);
 app.component("Dragger", VueDragResize);
 
 for (let [key, component] of Object.entries(ElementPlusIconsVue)) {
   app.component(key, component);
 }
+
 app.use(ElementPlus);
 app.use(createPinia());
 app.use(router);
+app.use(GlobalCmComponent);
 
 app.mount("#app");

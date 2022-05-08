@@ -23,8 +23,6 @@ watch(
 		} else {
 			current[key] = val.value;
 		}
-
-		console.log(list.value);
 	}
 );
 </script>

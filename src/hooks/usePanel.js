@@ -14,15 +14,17 @@ let rootStyle = ref({
 });
 
 export function usePanel() {
-  // 当前组件的样式
-  let currentForm = computed(() => {
-    return CONFIG.WIDGE_LIST.find((item) => current.value?.type === item.type)
-      ?.styleForm;
-  });
-
   let current = computed(() => {
     return list.value.find((item) => item.focused);
   });
+
+  // 当前组件的样式
+  let currentForm = computed(() => {
+    // return CONFIG.WIDGE_LIST.find((item) => current.value?.type === item.type)
+    //   ?.styleForm;
+    return current.value?.styleForm;
+  });
+
   function onFocus(currentItem) {
     list.value = list.value.map((item) => {
       item.focused = item.id === currentItem.id;
