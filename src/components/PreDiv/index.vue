@@ -1,11 +1,10 @@
 <script setup>
-import { number } from "echarts";
-const props = defineProps({
-  w: number,
-  h: number,
-  x: number,
-  y: number,
-  z: number,
+defineProps({
+  w: Number,
+  h: Number,
+  x: Number,
+  y: Number,
+  z: Number,
 });
 </script>
 

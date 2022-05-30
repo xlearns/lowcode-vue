@@ -9,6 +9,7 @@ import { ElMessage } from "element-plus";
 let { list, rootStyle } = usePanel();
 let { bgImg } = useStyle();
 let options = ref(rootStyle.value);
+
 function goback(e) {
   let { key } = e;
   router.push("/");
