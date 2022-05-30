@@ -12,13 +12,13 @@ map 地图
 elementPlus  element-plus
 other 其它
 */
-
+const rootPath = import.meta.env.VITE_BASE_URL;
 export const WIDGE_LIST = [
   {
     type: "text",
     component: "customText",
     label: "文字",
-    url: "/img/text1.png",
+    url: rootPath + "img/text1.png",
     default: dft.TEXT_DATA,
     styles: dft.TEXT_STYLE,
     styleForm: styleFormConfig.TEXT,
@@ -27,14 +27,14 @@ export const WIDGE_LIST = [
     type: "echarts",
     component: "customEchartsBar",
     label: "柱形图",
-    url: "/img/echarts1.png",
+    url: rootPath + "img/echarts1.png",
     default: dft.ECHARTSBAR_DATA,
     styles: dft.ECHARTSBAR_STYLE,
     styleForm: styleFormConfig.BAR,
   },
   {
     type: "echarts",
-    url: "/img/echarts2.png",
+    url: rootPath + "img/echarts2.png",
     component: "customEchartsPie",
     label: "饼图",
     default: dft.ECHARTSPIE_DATA,
@@ -43,7 +43,7 @@ export const WIDGE_LIST = [
   },
   {
     type: "border",
-    url: "/img/border1.png",
+    url: rootPath + "img/border1.png",
     component: "customBorderBox1",
     label: "边框",
     default: dft.ECHARTSPIE_DATA,
@@ -52,7 +52,7 @@ export const WIDGE_LIST = [
   },
   {
     type: "elementPlus",
-    url: "/img/elementplus1.png",
+    url: rootPath + "img/elementplus1.png",
     component: "customElementUiButton",
     label: "按钮",
     value: "hello world!",
